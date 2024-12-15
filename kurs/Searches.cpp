@@ -68,40 +68,45 @@ int ternarySearch(vector<int>& arr, int key) {
 
 	// Time complexity
 	// worst case:
-	// best case:
+	// best case: 4 + 1 + 1 = 6 
 	// average case:
 	// Space complexity
 	// 4 * 4 = 16 = O(1)
 }
 int interpolationSearch(vector<int>& arr, int key) {
-	if (arr.empty()) return - 1;
+	if (arr.empty()) return -1;
 	int left = 0;
 	int right = arr.size() - 1;
-	
-	while (arr[left] < key && arr[right] > key && arr[left] != arr[right]) {
-		int i = (key - arr[left]) * (left - right) / (arr[left] - arr[right]) + left;
-		if (i < 0) return -1;
-		if (arr[i] > key) {
-			right = i - 1;
+
+	while (left <= right && key >= arr[left] && key <= arr[right]) {
+		if (left == right) {
+			if (arr[left] == key) return left;
+			return -1;
 		}
-		else if (arr[i] < key) {
-			left = i + 2;
+
+		int i = left + ((key - arr[left]) * (right - left)) / (arr[right] - arr[left]);
+
+		if (i < left || i > right) {
+			return -1;
 		}
-		else {
+
+		if (arr[i] == key) {
 			return i;
 		}
+
+		if (arr[i] < key) {
+			left = i + 1;
+		}
+		else {
+			right = i - 1;
+		}
 	}
-	if (arr[left] == key) {
-		return left;
-	}
-	if (arr[right] == key) {
-		return right;
-	}
+
 	return -1;
 
 	// Time complexity
 	// worst case:
-	// best case:
+	// best case: 1 + 2 + 3 + 1 + 1 + 2 = 10
 	// average case:
 	// Space complexity
 	// 4 * 2 = 8 = O(1)

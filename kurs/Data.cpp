@@ -1,20 +1,26 @@
 #include "Data.h"
 
 
+
 const long int FROM = 1e4;
 const long int TO = 1e5;
 const int STEP = 1e3;
-const int MAX_VALUE = 1e5;
+const long int MAX_VALUE = 1e6;
 
 void fillArray(vector<int>& arr, int TO) {
-    srand(time(NULL));
-    for (int i = 0; i < TO; i++) {
-        random_device rd;
-        mt19937 gen(rd());
-        uniform_int_distribution<> dis(0, MAX_VALUE);
-        arr.push_back(dis(gen));
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, MAX_VALUE);
+
+    std::unordered_set<int> unique_numbers;
+
+    while (unique_numbers.size() < TO) {
+        int val = dis(gen);
+        unique_numbers.insert(val);
     }
-    sort(arr.begin(), arr.end());
+
+    arr.assign(unique_numbers.begin(), unique_numbers.end());
+    std::sort(arr.begin(), arr.end());
 }
 
 void fillDataFile(string filename) {
@@ -52,7 +58,7 @@ void fillDataFile(string filename) {
         vector<int> arr;
         fillArray(arr, n);
         auto start = chrono::high_resolution_clock::now();
-        linearSearch(arr, arr[n/2]);
+        linearSearch(arr, arr[(n - 1)/2]);
         auto end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         double T = duration.count();
@@ -94,7 +100,7 @@ void fillDataFile(string filename) {
         vector<int> arr;
         fillArray(arr, n);
         auto start = chrono::high_resolution_clock::now();
-        binarySearch(arr, arr[n/2]);
+        binarySearch(arr, arr[(n - 1)/2]);
         auto end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         double T = duration.count();
@@ -178,7 +184,7 @@ void fillDataFile(string filename) {
         vector<int> arr;
         fillArray(arr, n);
         auto start = chrono::high_resolution_clock::now();
-        interpolationSearch(arr, arr[arr.size() / 2]);
+        interpolationSearch(arr, arr[(n - 1) / 2]);
         auto end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         double T = duration.count();

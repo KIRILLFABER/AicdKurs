@@ -6,6 +6,7 @@
 #include <chrono>
 #include <random>
 #include <time.h>
+#include <unordered_set>
 #include "Searches.h"
 
 

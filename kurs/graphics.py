@@ -15,80 +15,9 @@ def readData(n, h, tree):
                 n.append(int(row["n"]))
                 h.append(float(row["T(n)"]))
      
-def pracGraphics():
-    plt.figure(figsize=(X, Y))
-
-
-    #LS
-    # Подпись осей
-    plt.xlabel("n")
-    plt.ylabel("T(n)")
-
-    
-    n, h = [], []
-    # Чтение данных из csv файла
-    readData(n, h, "LS")
-    # Построение точек
-    plt.scatter(n, h, label="Linear Search")
-    #Построение регрессии
-    reg(n, h, "red", 1)
-    plt.legend()
-    # Сохранение файла
-    plt.savefig("PracGraphics\LS.png")
-    #BS
-    plt.clf()
-    plt.xlabel("n")
-    plt.ylabel("T(n)")
-    n.clear()
-    h.clear()
-    readData(n, h, "BS")
-    plt.scatter(n, h, label="Binary Search")
-    reg(n, h, "red", 1)
-    plt.legend()
-    plt.savefig("PracGraphics\BS.png")
-    #TS
-    plt.clf()
-    plt.xlabel("n")
-    plt.ylabel("T(n)")
-    n, h = [], []
-    readData(n, h, "TS")
-    plt.scatter(n, h, label="Ternary Search")
-    reg(n, h, "red", 1)
-    plt.legend()
-    plt.savefig("PracGraphics\TS.png")
-    #IS
-    plt.clf()
-    plt.xlabel("n")
-    plt.ylabel("T(n)")
-    n, h = [], []
-    readData(n, h, "IS")
-    plt.scatter(n, h, label="Interpolation Search")
-    reg(n, h, "red", 1)
-    plt.legend()
-    plt.savefig("PracGraphics\IS.png")
-    # #ALL
-    plt.clf()
-    plt.xlabel("n")
-    plt.ylabel("T(n)")
-    n1, n2, n3, n4, h1, h2, h3, h4 = [], [], [], [], [], [], [], []
-    readData(n1, h1, "LS")
-    readData(n2, h2, "BS")
-    readData(n3, h3, "TS")
-    readData(n4, h4, "IS")
-    #plt.scatter(n1, h1, label="LS")
-    #reg(n1, h1, "blue", 1)
-    plt.scatter(n2, h2, label="BS")
-    reg(n2, h2, "blue", 2)
-    plt.scatter(n3, h3, label="TS")
-    reg(n3, h3, "orange", 3)
-    plt.scatter(n4, h4, label="IS")
-    reg(n4, h4, "green", 3)
-    plt.legend()
-    plt.savefig("PracGraphics\ALL.png")
-
-def reg(n, h, col, index):
+def reg(n, T, col, index):
     # Находим коэффициенты регрессии 2-й степени
-    coefficients = np.polyfit(n, h, 2)
+    coefficients = np.polyfit(n, T, 2)
     polynomial_regression = np.poly1d(coefficients)
 
 
@@ -123,6 +52,7 @@ def readData(search, case, n, T):
 
 def plotGraphic(search, case, n, T, filename, index = 1, color = "red"):
     plt.clf()
+    plt.figure(figsize=(X, Y))
     plt.xlabel("n")
     plt.ylabel("T(n)")
     n.clear()
@@ -136,37 +66,79 @@ def plotGraphic(search, case, n, T, filename, index = 1, color = "red"):
     plt.legend()
     # Сохранение файла
     plt.savefig(filename)
+    plt.close()
+
+def plotAllGraphics(searches, case, n, T, filename, without = None):
+    plt.clf()
+    plt.figure(figsize=(X, Y))
+    plt.xlabel("n")
+    plt.ylabel("T(n)")
+    n.clear()
+    T.clear()
+    n1, n2, n3, n4 = [], [], [], []
+    T1, T2, T3, T4 = [], [], [], []
+    n = [n1, n2, n3, n4]
+    T = [T1, T2, T3, T4]
+    # Чтение данных из csv файла
+    i = 0
+    without_index = -1
+    for search in searches:
+        if (search == without):
+            without_index = i
+            i += 1
+            continue
+        readData(search, case, n[i], T[i])
+        i += 1
+    colors = ["blue", "orange", "green", "red"]
+    for i in range(len(n)):
+        if (without_index != -1 and i == without_index):
+            continue
+        plt.scatter(n[i], T[i], label=searches[i], color = colors[i])
+        reg(n[i], T[i], colors[i], i)
+
+    plt.legend()
+    # Сохранение файла
+    plt.savefig(filename)
+    plt.close()
 
 def graphics():
     searches = ["LS", "BS", "TS", "IS"]
     cases = ["W", "F", "M", "L"]
     n = []
     T = []
+    all_n = []
+    all_T = []
     #Worst case
     plotGraphic(searches[0], cases[0], n, T, "PracGraphics\Worst case\LS.png")
     plotGraphic(searches[1], cases[0], n, T, "PracGraphics\Worst case\BS.png")
     plotGraphic(searches[2], cases[0], n, T, "PracGraphics\Worst case\TS.png")
     plotGraphic(searches[3], cases[0], n, T, "PracGraphics\Worst case\IS.png")
     #for all
-
+    plotAllGraphics(searches, cases[0], all_n, all_T,"PracGraphics\Worst case\ALL.png")
+    plotAllGraphics(searches, cases[0], all_n, all_T,"PracGraphics\Worst case\ALLwoLS.png", without="LS")
     #Search first
     plotGraphic(searches[0], cases[1], n, T, "PracGraphics\First\LS.png")
     plotGraphic(searches[1], cases[1], n, T, "PracGraphics\First\BS.png")
     plotGraphic(searches[2], cases[1], n, T, "PracGraphics\First\TS.png")
     plotGraphic(searches[3], cases[1], n, T, "PracGraphics\First\IS.png")
     #for all
+    plotAllGraphics(searches, cases[1], all_n, all_T,"PracGraphics\First\ALL.png")
     #Search middle
     plotGraphic(searches[0], cases[2], n, T, "PracGraphics\Mid\LS.png")
     plotGraphic(searches[1], cases[2], n, T, "PracGraphics\Mid\BS.png")
     plotGraphic(searches[2], cases[2], n, T, "PracGraphics\Mid\TS.png")
     plotGraphic(searches[3], cases[2], n, T, "PracGraphics\Mid\IS.png")
     #for all
+    plotAllGraphics(searches, cases[2], all_n, all_T,"PracGraphics\Mid\ALL.png")
+    plotAllGraphics(searches, cases[2], all_n, all_T,"PracGraphics\Mid\ALLwoLS.png", without="LS")
     #Search last
     plotGraphic(searches[0], cases[3], n, T, "PracGraphics\Last\LS.png")
     plotGraphic(searches[1], cases[3], n, T, "PracGraphics\Last\BS.png")
     plotGraphic(searches[2], cases[3], n, T, "PracGraphics\Last\TS.png")
     plotGraphic(searches[3], cases[3], n, T, "PracGraphics\Last\IS.png")
     #for all
+    plotAllGraphics(searches, cases[3], all_n, all_T,"PracGraphics\Last\ALL.png")
+    plotAllGraphics(searches, cases[3], all_n, all_T,"PracGraphics\Last\ALLwoLS.png", without="LS")
 
 
 
