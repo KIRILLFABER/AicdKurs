@@ -17,6 +17,8 @@ def readData(n, h, tree):
      
 def pracGraphics():
     plt.figure(figsize=(X, Y))
+
+
     #LS
     # Подпись осей
     plt.xlabel("n")
@@ -108,6 +110,70 @@ def reg(n, h, col, index):
      
 
 
-pracGraphics()
+
+
+def readData(search, case, n, T):
+    with open(filename, "r") as r_file:
+        reader = csv.DictReader(r_file, delimiter=";")  # Чтение данных из DATA
+        for row in reader:
+            if(row["search"] == search and row["case"] == case):
+                n.append(int(row["n"]))
+                T.append(float(row["T(n)"]))
+
+
+def plotGraphic(search, case, n, T, filename, index = 1, color = "red"):
+    plt.clf()
+    plt.xlabel("n")
+    plt.ylabel("T(n)")
+    n.clear()
+    T.clear()
+    # Чтение данных из csv файла
+    readData(search, case, n, T)
+    # Построение точек
+    plt.scatter(n, T, label=search)
+    #Построение регрессии
+    reg(n, T, "red", index)
+    plt.legend()
+    # Сохранение файла
+    plt.savefig(filename)
+
+def graphics():
+    searches = ["LS", "BS", "TS", "IS"]
+    cases = ["W", "F", "M", "L"]
+    n = []
+    T = []
+    #Worst case
+    plotGraphic(searches[0], cases[0], n, T, "PracGraphics\Worst case\LS.png")
+    plotGraphic(searches[1], cases[0], n, T, "PracGraphics\Worst case\BS.png")
+    plotGraphic(searches[2], cases[0], n, T, "PracGraphics\Worst case\TS.png")
+    plotGraphic(searches[3], cases[0], n, T, "PracGraphics\Worst case\IS.png")
+    #for all
+
+    #Search first
+    plotGraphic(searches[0], cases[1], n, T, "PracGraphics\First\LS.png")
+    plotGraphic(searches[1], cases[1], n, T, "PracGraphics\First\BS.png")
+    plotGraphic(searches[2], cases[1], n, T, "PracGraphics\First\TS.png")
+    plotGraphic(searches[3], cases[1], n, T, "PracGraphics\First\IS.png")
+    #for all
+    #Search middle
+    plotGraphic(searches[0], cases[2], n, T, "PracGraphics\Mid\LS.png")
+    plotGraphic(searches[1], cases[2], n, T, "PracGraphics\Mid\BS.png")
+    plotGraphic(searches[2], cases[2], n, T, "PracGraphics\Mid\TS.png")
+    plotGraphic(searches[3], cases[2], n, T, "PracGraphics\Mid\IS.png")
+    #for all
+    #Search last
+    plotGraphic(searches[0], cases[3], n, T, "PracGraphics\Last\LS.png")
+    plotGraphic(searches[1], cases[3], n, T, "PracGraphics\Last\BS.png")
+    plotGraphic(searches[2], cases[3], n, T, "PracGraphics\Last\TS.png")
+    plotGraphic(searches[3], cases[3], n, T, "PracGraphics\Last\IS.png")
+    #for all
+
+
+
+
+
+
+
+graphics()
 
 
