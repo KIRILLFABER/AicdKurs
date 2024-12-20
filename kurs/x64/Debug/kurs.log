@@ -3,4 +3,6 @@ C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курс
 C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\Data.cpp(6,21): warning C4244: инициализация: преобразование "double" в "long", возможна потеря данных
 C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\Data.cpp(7,18): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
 C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\Data.cpp(8,28): warning C4244: инициализация: преобразование "double" в "long", возможна потеря данных
+C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\Data.cpp(9,15): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\Data.cpp(66,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   kurs.vcxproj -> C:\Users\KIRIL\OneDrive\Рабочий стол\Учёба\Алгосы\Курсовая\kurs\x64\Debug\kurs.exe
